@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button } from '@mui/material';
+import confusionImg from './images/confusion.jpg';
+import fearImg from './images/fear.jpg';
 
+const incongruent = [confusionImg, confusionImg, fearImg, confusionImg, confusionImg];
+const congruent = [confusionImg, confusionImg, confusionImg, confusionImg, confusionImg];
 
 // Screen 1- Welcome Screen
 const Screen1 = ({ onButtonClick }) => (
@@ -657,6 +661,7 @@ const Screen10 = ({ onButtonClick, value, onChange }) => (
     </Container>
   </Box>
 );
+
 //Screen 11
 const Screen11 = ({ onButtonClick, value, onChange }) => (
   <Box
@@ -682,6 +687,108 @@ const Screen11 = ({ onButtonClick, value, onChange }) => (
       <Typography justifyContent='center' sx= {{marginTop: "100px", marginLeft: "160px", fontSize: "100px"}}>
         Thank you!
       </Typography>
+    </Container>
+  </Box>
+);
+
+// Screen 12: Faces Flanker (Incongruent)
+const Screen12 = ({ onButtonClick, value, onChange }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'black',
+      width: '100vw',
+      height: '100vh',
+    }}
+  >
+    <Container
+      maxWidth="md"
+      sx={{
+        border: '2px solid black',
+        backgroundColor: 'gray',
+        height: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      style={{ marginTop: '10px', marginBottom: '10px' }}
+    >
+      {/* Spacer */}
+      <div style={{ flex: 1 }}></div>
+
+      {/* Images */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '100px' }}>
+        {/* Map over the array of image sources and render <img> elements */}
+        {incongruent.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={`Image ${index + 1}`}
+            style={{ width: '150px', height: '150px', marginRight: '10px' }}
+          />
+        ))}
+      </div>
+
+      {/* Input Field */}
+      <input 
+        type="text" 
+        value={value} 
+        onChange={onChange} 
+        style={{ backgroundColor: 'gray', width: '100%', padding: '10px', borderColor: 'gray', margingTop: '20px', marginBottom: '100px' }}
+      />
+    </Container>
+  </Box>
+);
+
+// Screen 13: Faces Flanker (Incongruent)
+const Screen13 = ({ onButtonClick, value, onChange }) => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'black',
+      width: '100vw',
+      height: '100vh',
+    }}
+  >
+    <Container
+      maxWidth="md"
+      sx={{
+        border: '2px solid black',
+        backgroundColor: 'gray',
+        height: '60vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+      style={{ marginTop: '10px', marginBottom: '10px' }}
+    >
+      {/* Spacer */}
+      <div style={{ flex: 1 }}></div>
+
+      {/* Images */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '100px' }}>
+        {/* Map over the array of image sources and render <img> elements */}
+        {congruent.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={`Image ${index + 1}`}
+            style={{ width: '150px', height: '150px', marginRight: '10px' }}
+          />
+        ))}
+      </div>
+
+      {/* Input Field */}
+      <input 
+        type="text" 
+        value={value} 
+        onChange={onChange} 
+        style={{ backgroundColor: 'gray', width: '100%', padding: '10px', borderColor: 'gray', margingTop: '20px', marginBottom: '100px' }}
+      />
     </Container>
   </Box>
 );
@@ -713,7 +820,7 @@ const Screen11 = ({ onButtonClick, value, onChange }) => (
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if ((screen === 9 || screen === 10) && inputValue === '') {
+      if ((screen === 9 || screen === 10 || screen === 12 || screen === 13) && inputValue === '') {
         return;
       }
       if (screen === 6 || screen === 8) {
@@ -727,7 +834,7 @@ const Screen11 = ({ onButtonClick, value, onChange }) => (
       } else if (screen === 7) {
         setDelay(500);
         setScreen(screen => screen + 1);
-      } else if ((screen === 9 || screen === 10) && inputValue !== '') {
+      } else if ((screen === 9 || screen === 10 || screen === 12 || screen === 13) && inputValue !== '') {
         setInputValue('');
       }
     }, delay);
@@ -746,7 +853,7 @@ const Screen11 = ({ onButtonClick, value, onChange }) => (
   const switchScreen = (nextScreen) => {
     if (nextScreen >= 1 && nextScreen <= 5) {
       setScreen(screen + 1);
-    } else if (screen === 9 || screen === 10) {
+    } else if (screen === 9 || screen === 10 || screen === 12 || screen === 13) {
       setScreen(6);
     } else {
       setScreen(screen + 1);
@@ -788,6 +895,8 @@ const Screen11 = ({ onButtonClick, value, onChange }) => (
       {screen === 8 && <Screen8 />}
       {screen === 9 && <Screen9 value={inputValue} onChange={handleChange} />}
       {screen === 10 && <Screen10 value={inputValue} onChange={handleChange} />}
+      {screen === 12 && <Screen12 value={inputValue} onChange={handleChange}/>}
+      {screen === 13 && <Screen13 value={inputValue} onChange={handleChange}/>}
       {screen === 11 && <Screen11 />}
     </div>
   );
